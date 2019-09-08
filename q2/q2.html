@@ -1,0 +1,28 @@
+<html>
+<body>
+<div id="id00"></div>
+
+<div id="id01"></div>
+
+<script>
+var xmlhttp = new XMLHttpRequest();
+var url = "http://127.0.0.1:5000/";
+var startTime, endTime;
+
+startTime = new Date();
+xmlhttp.onreadystatechange = function() {
+  if (this.readyState == 4 && this.status == 200) {
+    var myArr = JSON.parse(this.responseText);
+    endTime = new Date();
+    var timeDiff = endTime - startTime;
+    var final_time = parseFloat(myArr.about) + (timeDiff/2000);
+    document.getElementById("id00").innerHTML = 'Time sent by server is ' + myArr.about + ' secs and corrected time is ' + final_time + ' secs';
+  }
+};
+xmlhttp.open("GET", url, true);
+xmlhttp.send();
+
+</script>
+
+</body>
+</html>

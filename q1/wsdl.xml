@@ -1,0 +1,53 @@
+<definitions xmlns:tns="ca.sfu.MayankaOscar.wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsd1="ca.sfu.MayankaOscar.xsd" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/" name="SOAP-based clock synchronization" targetNamespace="ca.sfu.MayankaOscar.wsdl">
+ <!--  definition of datatypes  -->
+<types>
+<schema xmlns="http://www.w3.org/2000/10/XMLSchema" targetNamespace="ca.sfu.MayankaOscar.xsd">
+<element name="myJson">
+<complexType>
+<all>
+<element name="value" type="string"/>
+</all>
+</complexType>
+</element>
+<element name="void">
+<complexType>
+<sequence/>
+</complexType>
+</element>
+</schema>
+</types>
+ <!--  response messages  -->
+<message name="returns_myJson">
+<part name="myJson" type="xsd:myJson"/>
+</message>
+ <!--  request messages  -->
+<message name="clockSync_ms">
+<part name="void" type="xsd:void"/>
+</message>
+ <!--  server's services  -->
+<portType name="clockSync">
+<operation name="clockSync_ms">
+<input message="tns:clockSync_ms"/>
+<output message="tns:returns_myJson"/>
+</operation>
+</portType>
+ <!--  server encoding  -->
+<binding name="clockSync_webservices" type="tns:clockSync">
+<soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+<operation name="clockSync_ms">
+<soap:operation soapAction="urn:xmethods-delayed-quotes#clockSync_ms"/>
+<input>
+<soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+</input>
+<output>
+<soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+</output>
+</operation>
+</binding>
+ <!--  access to service provider  -->
+<service name="assignment">
+<port name="assignment_0" binding="clockSync_webservices">
+<soap:address location="http://127.0.0.1:16540/wsdl"/>
+</port>
+</service>
+</definitions>
